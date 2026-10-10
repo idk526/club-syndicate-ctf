@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Club Syndicate CTF // 2026</title>
+    <style>
+        :root {
+            --bg-color: #08080b;
+            --card-bg: #121218;
+            --text-main: #cfd4d9;
+            --text-heading: #ffffff;
+            --neon-cyan: #00e5ff;
+            --neon-orange: #ff6a00;
+            --neon-pink: #ff0055;
+            --border-color: #2a2a35;
+            --font-main: 'Roboto Mono', 'Courier New', Courier, monospace;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            font-family: var(--font-main);
+            margin: 0;
+            padding: 40px 20px;
+            line-height: 1.6;
+            background-image: 
+                linear-gradient(rgba(0, 229, 255, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 229, 255, 0.03) 1px, transparent 1px);
+            background-size: 40px 40px;
+            background-position: center center;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 50px;
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            padding: 40px 30px;
+            box-shadow: 0 0 20px rgba(0, 229, 255, 0.05);
+            position: relative;
+            overflow: hidden;
+            border-radius: 4px;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, var(--neon-cyan), var(--neon-orange), var(--neon-pink), var(--neon-cyan));
+            background-size: 200% auto;
+            animation: gradient-shift 3s linear infinite;
+        }
+
+        @keyframes gradient-shift {
+            0% { background-position: 0% 50%; }
+            100% { background-position: 200% 50%; }
+        }
+
+        .header img {
+            max-width: 130px;
+            margin-bottom: 25px;
+            filter: drop-shadow(0px 0px 10px rgba(255, 106, 0, 0.3));
+        }
+
+        h1 {
+            text-transform: uppercase;
+            font-size: 2.8em;
+            letter-spacing: 2px;
+            margin: 0 0 15px 0;
+            font-weight: 900;
+            color: var(--text-heading);
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
+        }
+
+        .title-bracket {
+            color: var(--neon-cyan);
+            text-shadow: 0 0 8px rgba(0, 229, 255, 0.5);
+        }
+
+        .subtitle {
+            background-color: #000;
+            color: var(--neon-cyan);
+            display: inline-block;
+            padding: 8px 20px;
+            font-weight: bold;
+            font-size: 1.1em;
+            letter-spacing: 1px;
+            border: 1px solid var(--neon-cyan);
+            box-shadow: 0 0 10px rgba(0, 229, 255, 0.2);
+            border-radius: 2px;
+        }
+
+        .challenge-box {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            padding: 30px;
+            margin-bottom: 40px;
+            transition: all 0.3s ease;
+            position: relative;
+            border-radius: 4px;
+        }
+
+        .challenge-box:hover {
+            border-color: var(--neon-cyan);
+            box-shadow: 0 0 20px rgba(0, 229, 255, 0.1);
+            transform: translateY(-2px);
+        }
+
+        .challenge-box::before {
+            content: '';
+            position: absolute;
+            top: -1px;
+            left: -1px;
+            width: 15px;
+            height: 15px;
+            border-top: 2px solid var(--neon-cyan);
+            border-left: 2px solid var(--neon-cyan);
+            box-shadow: -4px -4px 10px rgba(0, 229, 255, 0.2);
+        }
+
+        h2 {
+            margin-top: 0;
+            text-transform: uppercase;
+            font-size: 1.5em;
+            color: var(--text-heading);
+            border-bottom: 1px dashed var(--border-color);
+            padding-bottom: 10px;
+        }
+
+        .meta-data {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-bottom: 20px;
+            font-weight: bold;
+            font-size: 0.9em;
+        }
+
+        .tag {
+            background: #000;
+            padding: 6px 12px;
+            border: 1px solid var(--border-color);
+            color: var(--text-main);
+            border-radius: 2px;
+        }
+
+        .diff-easy { 
+            border-left: 4px solid var(--neon-cyan); 
+            color: var(--neon-cyan);
+        }
+        .diff-medium { 
+            border-left: 4px solid var(--neon-orange); 
+            color: var(--neon-orange);
+        }
+        .diff-hard { 
+            border-left: 4px solid var(--neon-pink);
+            color: var(--neon-pink);
+        }
+
+        .scenario-text {
+            background: #0d0d12;
+            border-left: 3px solid var(--neon-cyan);
+            padding: 15px;
+            margin-bottom: 20px;
+            font-size: 0.95em;
+            color: #a0a5ab;
+        }
+
+        .scenario-text strong {
+            color: var(--text-heading);
+        }
+
+        .challenge-media {
+            width: 100%;
+            max-width: 600px;
+            display: block;
+            margin: 20px auto;
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            opacity: 0.85;
+            transition: opacity 0.3s;
+        }
+
+        .challenge-media:hover {
+            opacity: 1;
+            border-color: var(--neon-cyan);
+            box-shadow: 0 0 15px rgba(0, 229, 255, 0.15);
+        }
+
+        .download-btn {
+            display: block;
+            width: fit-content;
+            background-color: transparent;
+            color: var(--neon-cyan);
+            border: 1px solid var(--neon-cyan);
+            padding: 12px 25px;
+            text-decoration: none;
+            text-transform: uppercase;
+            font-weight: bold;
+            margin: 20px auto 0 auto;
+            text-align: center;
+            transition: all 0.3s;
+            cursor: pointer;
+            border-radius: 2px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .download-btn:hover {
+            background-color: var(--neon-cyan);
+            color: #000;
+            box-shadow: 0 0 15px rgba(0, 229, 255, 0.4);
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="header">
+        <img src="image_d14663.png" alt="Club Logo">
+        <h1><span class="title-bracket">{</span> CAPTURE THE FLAG <span class="title-bracket">}</span></h1>
+        <div class="subtitle">>_ SYSTEM_STATUS: COMPROMISED // INFILTRATION_ACTIVE</div>
+    </div>
+
+    <!-- Challenge 1 -->
+    <div class="challenge-box">
+        <h2>Challenge 1: The Dome's Mirage</h2>
+        <div class="meta-data">
+            <span class="tag">Stego</span>
+            <span class="tag diff-medium">Medium (150 Pts)</span>
+        </div>
+        <div class="scenario-text">
+            <strong>[SCENARIO]</strong> We intercepted visual data feeds originating from the dome building at Manipal University Jaipur. The operative attempted to exfiltrate a secure routing code, but the transmission was split into identical-looking layers to avoid detection. Find the mathematical difference between the image feeds to reveal the hidden matrix.
+        </div>
+        <img src="stego_1 (1).png" alt="Dome Mirage Data Feed" class="challenge-media">
+        <a href="stego_1 (1).png" download="stego_1 (1).png" target="_blank" class="download-btn">Extract Payload</a>
+    </div>
+
+    <!-- Challenge 2 -->
+    <div class="challenge-box">
+        <h2>Challenge 2: GHS Frequency</h2>
+        <div class="meta-data">
+            <span class="tag">Stego</span>
+            <span class="tag diff-hard">Hard (300 Pts)</span>
+        </div>
+        <div class="scenario-text">
+            <strong>[SCENARIO]</strong> A field agent sent back this standard photograph of GHS before their communications were heavily jammed. While the image looks completely normal on the surface, our scanners are picking up a massive data anomaly trailing at the very end of the file's binary structure. Extract the payload and decode the secure message. Be warned: the target's transmission is not meant for your ears.
+        </div>
+        <img src="stego_challenge (1).jpeg" alt="GHS Frequency Anomaly" class="challenge-media">
+        <a href="stego_challenge (1).jpeg" download="stego_challenge (1).jpeg" target="_blank" class="download-btn">Extract Payload</a>
+    </div>
+
+    <!-- Challenge 3 -->
+    <div class="challenge-box">
+        <h2>Challenge 3: Structural Trace</h2>
+        <div class="meta-data">
+            <span class="tag">Forensics</span>
+            <span class="tag diff-hard">Medium-Hard (250 Pts)</span>
+        </div>
+        <div class="scenario-text">
+            <strong>[SCENARIO]</strong> A suspicious video file was recovered from a compromised terminal in the administrative wing. The visual footage seems completely harmless, but the file size doesn't quite add up. The attacker was careless and left a structural trace behind in the file's properties. Analyze the video's fingerprint to find the key, then dissect the file itself to pull out the hidden anomaly. Secure the flag before the data is lost.
+        </div>
+        <video controls class="challenge-media">
+            <source src="stego_challenge4.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+        <a href="stego_challenge4.mp4" download="stego_challenge4.mp4" target="_blank" class="download-btn">Extract Payload</a>
+    </div>
+
+    <!-- Challenge 4 -->
+    <div class="challenge-box">
+        <h2>Challenge 4: The Crest's Secret</h2>
+        <div class="meta-data">
+            <span class="tag">Forensics</span>
+            <span class="tag diff-medium">Medium (200 Pts)</span>
+        </div>
+        <div class="scenario-text">
+            <strong>[SCENARIO]</strong> Our college club recently distributed this official logo, but rumors are circulating that the executive committee hid a secret initiation code inside the file. At first glance, it looks like a standard high-quality crest. Basic forensics will give you a breadcrumb, but don't be fooled—it's a trap for amateurs. You will need to dig much deeper into the image to extract the true message. Can you bypass the lock and secure the flag?
+        </div>
+        <img src="stego_challenge3.jpeg" alt="Club Crest" class="challenge-media">
+        <a href="stego_challenge3.jpeg" download="stego_challenge3.jpeg" target="_blank" class="download-btn">Extract Payload</a>
+    </div>
+
+    <!-- Challenge 5 -->
+    <div class="challenge-box">
+        <h2>Challenge 5: Corrupted Drive</h2>
+        <div class="meta-data">
+            <span class="tag">Miscellaneous Magic Bytes</span>
+            <span class="tag diff-hard">Medium-Hard (250 Pts)</span>
+        </div>
+        <div class="scenario-text">
+            <strong>[SCENARIO]</strong> A ransomware attack hit the clinic's local drive. We stopped the encryption process and managed to intercept the attacker's extraction password: <strong>infected2026</strong>. However, this critical data file was partially corrupted during the attack, and the operating system doesn't recognize the file type anymore. Repair the file's header, restore it to its original format, and use the intercepted password to recover the flag inside.
+        </div>
+        <a href="corrupted_patient_records.dat" download="corrupted_patient_records.dat" target="_blank" class="download-btn">Extract Payload</a>
+    </div>
+
+    <!-- Challenge 6 -->
+    <div class="challenge-box">
+        <h2>Challenge 6: Pre-Production Panic</h2>
+        <div class="meta-data">
+            <span class="tag">Web Exploitation / Cryptography / Reverse Engineering</span>
+            <span class="tag diff-easy">Easy / Medium</span>
+        </div>
+        <div class="scenario-text">
+            <strong>[SCENARIO]</strong> The Central Savings Agency (CSA) rushed the deployment of their new employee portal and accidentally exposed a live staging environment. It appears their development team hasn't connected the backend validation yet, relying entirely on exposed local browser scripts to secure the corporate dashboard. We have intercepted the link to their staging login page. Your objective is to analyze the portal's source code, bypass the flawed authentication token check, and recover the hidden agency flag.
+        </div>
+        <a href="https://savingsbank-neon.vercel.app/" target="_blank" class="download-btn">Access Target Interface</a>
+    </div>
+
+</div>
+
+</body>
+</html>
